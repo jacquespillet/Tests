@@ -9,5 +9,6 @@ void main()
 {
     instanceId = gl_InstanceID;
     vfragPos = (position.xyz + 1.0)/2.0;
+    // vfragPos = position.xyz;
     gl_Position = vec4(position.xyz,1.0);
 }

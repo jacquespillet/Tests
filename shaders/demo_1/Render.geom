@@ -10,7 +10,9 @@ void main()
 {
     for(int i = 0; i < 3; i++) { 
         gFragPos = vfragPos[i];
-        gFragPos.z = float(instanceId[i])/32.0f;
+        gFragPos.z = float(instanceId[i])/33.0f;
+
+
         gl_Position = gl_in[i].gl_Position;
         gl_Layer = instanceId[i];
         EmitVertex();

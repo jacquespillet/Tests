@@ -11,15 +11,14 @@ GLuint CreateTexture3D(std::vector<float> data, int size) {
     glGenTextures(1, &glTex);  
     glBindTexture(GL_TEXTURE_3D, glTex);
 
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
     
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     GLint  texType = GL_RED;
-
-    glTexImage3D(GL_TEXTURE_3D, 0, texType, size, size, size, 0, texType,  GL_FLOAT, (unsigned char *)data.data());
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R32F, size, size, size, 0, texType,  GL_FLOAT, (unsigned char *)data.data());
     // glGenerateMipmap(GL_TEXTURE_3D);
     
     glBindTexture(GL_TEXTURE_3D, 0);
@@ -32,8 +31,8 @@ GLuint CreateIntTexture(uint8_t* data, int width, int height) {
     glGenTextures(1, &glTex);  
     glBindTexture(GL_TEXTURE_2D, glTex);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -140,13 +139,13 @@ GLuint CreateFramebuffer3D(int size, GLuint* texHandle){
 	glGenTextures(1, texHandle);
 	glBindTexture(GL_TEXTURE_3D, *texHandle);
 	
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_RED, size, size,size, 0, GL_RED, GL_FLOAT, nullptr);
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_R32F, size, size,size, 0, GL_RED, GL_FLOAT, nullptr);
 	
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT ); 
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT );
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT ); 
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); 
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE); 
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *texHandle, 0);
 
 	

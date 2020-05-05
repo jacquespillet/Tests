@@ -16,6 +16,7 @@ public:
     void SetAspectRatio(float _aspectRatio) {this->aspectRatio = _aspectRatio; RecalculateProjectionMatrix();}
 
     void RecalculateProjectionMatrix() {
+        // projectionMatrix = glm::orthoLH(-10, 10, -10, 10, -10, 10);
         projectionMatrix = glm::perspective(glm::radians(fov), aspectRatio, nearPlane, farPlane);
     }
 

@@ -76,3 +76,31 @@ float perlinfbm(glm::vec3 p, float freq, int octaves)
     
     return noise;
 }
+
+//----------------------------------------------------------------------------------------
+float Hash(glm::vec2 p, float scale)
+{
+	// This is tiling part, adjusts with the scale...
+	p = mod(p, scale);
+	return glm::fract(sin(glm::dot(p, glm::vec2(27.16898f, 38.90563f))) * 5151.5473453f);
+}
+
+//----------------------------------------------------------------------------------------
+float Noise(glm::vec2 p, float scale )
+{
+	glm::vec2 f;
+	
+	p *= scale;
+
+	
+	f = glm::fract(p);		// Separate integer from fractional
+    p = glm::floor(p);
+	
+    f = f*f*(3.0f-2.0f*f);	// Cosine interpolation approximation
+	
+    float res = glm::mix(glm::mix(Hash(p, 				 scale),
+						Hash(p + glm::vec2(1.0, 0.0), scale), f.x),
+					glm::mix(Hash(p + glm::vec2(0.0, 1.0), scale),
+						Hash(p + glm::vec2(1.0, 1.0), scale), f.x), f.y);
+    return res;
+}
